@@ -8,10 +8,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
+
 import java.util.stream.Collectors;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
     // this is used to implement database based authentication method
 
@@ -26,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userNameOrEmail) throws UsernameNotFoundException {
         // Optional object has the feature of orElseThrow method
-        User user = userRepository.findByUserNameOrEmail(userNameOrEmail , userNameOrEmail)
+        User user = userRepository.findByUsernameOrEmail(userNameOrEmail , userNameOrEmail)
                 .orElseThrow(()-> new UsernameNotFoundException("User Not found in the databaese"));
 
 

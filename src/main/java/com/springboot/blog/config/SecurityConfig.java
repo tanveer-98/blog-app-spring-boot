@@ -25,32 +25,34 @@ public class SecurityConfig {
 
     private UserDetailsService userDetailsService;
 
-    SecurityConfig(UserDetailsService userDetailsService) {
+    SecurityConfig(UserDetailsService userDetailsService){
 
         // Constructor Dependency injection
         this.userDetailsService = userDetailsService;
     }
-
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
         return configuration.getAuthenticationManager();
 
         // this authentication manager will automatically get UserDetails using userDetailsService and  password encoder
     }
 
 
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws
             Exception {
         http.csrf((csrf) -> csrf.disable()).authorizeHttpRequests(
-                        (authorize) ->
+                (authorize) ->
 //                        authorize.anyRequest().authenticated())
-                                authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                                        .anyRequest().authenticated())
+                        authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .anyRequest().authenticated())
                 // permit all GET ROUTES to every user
                 .httpBasic(Customizer.withDefaults());
         return http.build();
@@ -62,7 +64,6 @@ public class SecurityConfig {
         what is an in-memory  object ?
 
         In contrast to persistent storage like databases or disk files,
-        in-memory objects are temporary and exist only while the program is running.
 
      */
 

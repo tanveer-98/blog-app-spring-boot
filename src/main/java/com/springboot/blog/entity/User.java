@@ -38,6 +38,18 @@ public class User {
     inverseJoinColumns = @JoinColumn(name="role_id",  referencedColumnName ="id"))
     private Set<Role> roles;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", userName='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
     // WHAT DOES FETCHTYPE.EAGER MEAN ?  answer : when an entity object is retrieved, any related entities marked as EAGER will also be fetched along with it, regardless of whether you explicitly access those related entities in your code.
 
 }
